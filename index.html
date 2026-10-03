@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soura Tahweel - Free Image Converter</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <img src="logo.svg" alt="Logo" class="header-icon">
+                Soura Tahweel - Free Image Converter
+            </h1>
+            <p>Convert, resize, and optimize your images instantly</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Left Section: Upload & Preview -->
+            <div class="section">
+                <div class="section-title">📤 Upload Image</div>
+
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <p>Drag and drop your image here</p>
+                    <p>or <span class="highlight">click to browse</span></p>
+                    <p style="font-size: 0.85em; color: #999; margin-top: 10px;">
+                        Supported: JPG, PNG, GIF, WebP, BMP, SVG, TIFF
+                    </p>
+                </div>
+
+                <input type="file" id="fileInput" accept="image/*">
+
+                <div class="section-title"><img src="logo.svg" alt="Logo" class="icons">Original Preview</div>
+                <div class="preview-container" id="previewContainer">
+                    <div class="no-preview">No image selected</div>
+                </div>
+
+                <div class="file-info" id="fileInfo" style="display: none;">
+                    <div class="file-info-row">
+                        <span class="file-info-label">Filename:</span>
+                        <span class="file-info-value" id="infoFilename">-</span>
+                    </div>
+                    <div class="file-info-row">
+                        <span class="file-info-label">Original Size:</span>
+                        <span class="file-info-value" id="infoOriginalSize">-</span>
+                    </div>
+                    <div class="file-info-row">
+                        <span class="file-info-label">Dimensions:</span>
+                        <span class="file-info-value" id="infoDimensions">-</span>
+                    </div>
+                    <div class="file-info-row">
+                        <span class="file-info-label">File Type:</span>
+                        <span class="file-info-value" id="infoFileType">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Section: Controls & Download -->
+            <div class="section">
+                <div class="section-title">⚙️ Settings</div>
+
+                <div class="controls">
+                    <!-- Format Selection -->
+                    <div class="control-group">
+                        <label>Output Format</label>
+                        <div class="format-grid" id="formatGrid">
+                            <button class="format-btn active" data-format="png">PNG</button>
+                            <button class="format-btn" data-format="jpg">JPG</button>
+                            <button class="format-btn" data-format="webp">WebP</button>
+                            <button class="format-btn" data-format="gif">GIF</button>
+                            <button class="format-btn" data-format="bmp">BMP</button>
+                        </div>
+                    </div>
+
+                    <!-- Width -->
+                    <div class="control-group">
+                        <div class="slider-value">
+                            <label>Width (px)</label>
+                            <span class="value-display" id="widthValue">100</span>
+                        </div>
+                        <input type="range" id="widthSlider" min="1" max="4000" value="100" step="1">
+                        <input type="number" id="widthInput" min="1" max="4000" value="100">
+                    </div>
+
+                    <!-- Height -->
+                    <div class="control-group">
+                        <div class="slider-value">
+                            <label>Height (px)</label>
+                            <span class="value-display" id="heightValue">100</span>
+                        </div>
+                        <input type="range" id="heightSlider" min="1" max="4000" value="100" step="1">
+                        <input type="number" id="heightInput" min="1" max="4000" value="100">
+                    </div>
+
+                    <!-- Aspect Ratio Lock -->
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="lockAspectRatio" checked>
+                        <label for="lockAspectRatio">Lock aspect ratio</label>
+                    </div>
+
+                    <!-- Quality Slider (for JPG/WebP) -->
+                    <div class="control-group">
+                        <div class="slider-value">
+                            <label>Quality</label>
+                            <span class="value-display" id="qualityValue">90%</span>
+                        </div>
+                        <input type="range" id="qualitySlider" min="10" max="100" value="90" step="5">
+                    </div>
+
+                    <!-- Transparent Background Toggle -->
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="transparentBg">
+                        <label for="transparentBg">Transparent background (PNG only)</label>
+                    </div>
+
+                    <!-- Background Color -->
+                    <div class="control-group">
+                        <label for="bgColor">Background Color</label>
+                        <input type="color" id="bgColor" value="#ffffff">
+                    </div>
+
+                    <!-- Filters Section -->
+                    <div class="control-group">
+                        <label>Filters</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div>
+                                <label style="font-size: 0.85em;">Brightness</label>
+                                <input type="range" id="brightness" min="0" max="200" value="100" step="10">
+                            </div>
+                            <div>
+                                <label style="font-size: 0.85em;">Contrast</label>
+                                <input type="range" id="contrast" min="0" max="200" value="100" step="10">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        ℹ️ Adjust settings and preview changes in real-time
+                    </div>
+                </div>
+
+                <!-- Status Message -->
+                <div class="status-message" id="statusMessage"></div>
+
+                <!-- Loader -->
+                <div class="loader" id="loader">
+                    <div class="spinner"></div>
+                    <p>Processing image...</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="button-group">
+                    <button class="btn-secondary" id="resetBtn">↻ Reset</button>
+                    <button class="btn-primary" id="convertBtn" disabled>🔄 Convert</button>
+                </div>
+
+                <div class="section-title" style="margin-top: 20px;"><img src="logo.svg" alt="Logo"
+                        class="icons">Converted Preview</div>
+                <div class="preview-container" id="convertedPreviewContainer">
+                    <div class="no-preview">Converted image will appear here</div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-primary" id="downloadBtn" disabled style="width: 100%;">
+                        ⬇️ Download Image
+                    </button>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-secondary" id="copyBtn" disabled style="width: 100%;">
+                        📋 Copy to Clipboard
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>💡 Tip: All processing is done locally in your browser. Your images are never uploaded to any server.</p>
+        </div>
+    </div>
+
+    <!-- Hidden Canvas for Processing -->
+    <canvas id="canvas"></canvas>
+    <script src="script.js"></script>
+</body>
+
+</html>
